@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
 void gaming() {
     SDL_Surface* image=SDL_LoadBMP("tank/enemy2D.bmp");
     SDL_Rect pos;
-    pos.width=100;
-    pos.height=100;
+    pos.w=100;
+    pos.h=100;
     pos.y=250;
     while(true){
         pos.x++;

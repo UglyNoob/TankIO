@@ -23,7 +23,7 @@ void search(){
 		line++;
 		index=0;
 		while((c=fgetc(file))!='\n'){
-			if(c==EOF){
+			if(c==(char)EOF){
 				notend=false;
 				break;
 			}
@@ -46,7 +46,7 @@ void search(){
 				int j;
 				if(last==0)printf("%d: ",line);
 				for(j=last;j<=(i-len);j++)putchar(buffer[j]);
-				printf("\033[31m");	//change the text colour into red
+				printf("\033[91m\033[1m");	//change the text colour into red
 				for(;j<=i;j++)putchar(buffer[j]);
 				printf("\033[0m");	//change back the text colour
 				last=j+1;
