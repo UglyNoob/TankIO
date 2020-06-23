@@ -6,4 +6,12 @@
 #define STAT_PAUSING	'\2'
 #define STAT_GAMEOVER	'\3'
 
+struct resource;
+
+bool loadResources(resource&);
+
+void freeResources(resource&);
+
+#include "values.cpp"
+
 #endif

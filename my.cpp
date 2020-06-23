@@ -15,6 +15,7 @@ char stat;
 SDL_Window* window;
 SDL_Surface* screen;
 SDL_Renderer* renderer;
+struct resource image;
 
 int main(int argc, char** argv) {
     init(true, true);
@@ -24,16 +25,10 @@ int main(int argc, char** argv) {
 }
 
 void gaming() {
-    SDL_Surface* image=SDL_LoadBMP("tank/enemy2D.bmp");
-    SDL_Rect pos;
     SDL_Event event;
-    pos.w=100;
-    pos.h=100;
-    pos.y=250;
     while(true){
-        pos.x++;
         SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,255,0,255));
-        SDL_FillRect(screen,&pos,SDL_MapRGB(screen->format,0,0,255));
+        SDL_BlitSurface(image.enemy1L,NULL,screen,NULL);
         SDL_UpdateWindowSurface(window);
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -62,6 +57,7 @@ void init(bool initSDL, bool resetGame) {
             outError(SDL_GetError());
             exit(-1);
         }
+        loadResources(image);
     }
     if (resetGame) {
         stat = STAT_MAINMENU;
@@ -72,6 +68,7 @@ void outError(const char *err) {
     fprintf(stderr, "ERROR: %s", err);
 }
 void exitGame(int code) {
+    freeResources(image);
     SDL_FreeSurface(screen);
     SDL_DestroyWindow(window);
     SDL_Quit();
