@@ -26,9 +26,24 @@ int main(int argc, char** argv) {
 
 void gaming() {
     SDL_Event event;
+    SDL_Rect pos;
+    int height=0;
     while(true){
         SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,255,0,255));
-        SDL_BlitSurface(image.enemy1L,NULL,screen,NULL);
+        pos.x=0;pos.y=0;
+        SDL_Surface **iter=(SDL_Surface**)&image;
+        for(int i=0;i<(sizeof(image)/sizeof(SDL_Surface*));i++){
+            SDL_BlitSurface(*iter,NULL,screen,&pos);
+            pos.x+=(*iter)->w;
+            if((pos.x+pos.y)>599){
+                pos.x=0;
+                pos.y+=height;
+                height=0;
+            }else{
+                height=(*iter)->w>height?(*iter)->w:height;
+            }
+            iter++;
+        }
         SDL_UpdateWindowSurface(window);
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -57,7 +72,10 @@ void init(bool initSDL, bool resetGame) {
             outError(SDL_GetError());
             exit(-1);
         }
-        loadResources(image);
+        if(!loadResources(image)){
+            outError(SDL_GetError());
+            exit(-1);
+        }
     }
     if (resetGame) {
         stat = STAT_MAINMENU;
