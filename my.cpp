@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
 #include "values.h"
 #include<SDL2/SDL_image.h>
@@ -29,7 +29,7 @@ void gaming() {
     SDL_Rect pos;
     int height=0;
     while(true){
-        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,255,0,255));
+        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,0,128,255));
         pos.x=0;pos.y=0;
         SDL_Surface **iter=(SDL_Surface**)&image;
         for(int i=0;i<(sizeof(image)/sizeof(SDL_Surface*));i++){

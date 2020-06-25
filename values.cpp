@@ -1,7 +1,8 @@
 #include<SDL2/SDL.h>
+#include<cstdio> 
 
 struct resource{
-    SDL_Surface *blast1,*blast2,*blast3,*blast4,*enemy1L,*enemy1R,*enemy1U,*enemy1D,*enemy2L,*enemy2R,*enemy2U,*enemy2D,*enemy3L,*enemy3R,*enemy3U,*enemy3D,*p1tankL,*p1tankR,*p1tankU,*p1tankD,*p2tankL,*p2tankR,*p2tankU,*p2tankD,*enemymissile,*grass,*mintank,*over,*star,*steel,*steels,*tankmissile,*timer,*wall,*walls,*water;
+    SDL_Surface *blast1,*blast2,*blast3,*blast4,*blast5,*enemy1L,*enemy1R,*enemy1U,*enemy1D,*enemy2L,*enemy2R,*enemy2U,*enemy2D,*enemy3L,*enemy3R,*enemy3U,*enemy3D,*p1tankL,*p1tankR,*p1tankU,*p1tankD,*p2tankL,*p2tankR,*p2tankU,*p2tankD,*enemymissile,*grass,*mintank,*over,*star,*steel,*steels,*tankmissile,*timer,*wall,*walls,*water;
 };
 
 bool loadResources(resource &res){
@@ -9,6 +10,7 @@ bool loadResources(resource &res){
     res.blast2=SDL_LoadBMP("image/blast2.bmp");
     res.blast3=SDL_LoadBMP("image/blast3.bmp");
     res.blast4=SDL_LoadBMP("image/blast4.bmp");
+    res.blast5=SDL_LoadBMP("image/blast5.bmp");
     res.enemy1L=SDL_LoadBMP("image/enemy1L.bmp");
     res.enemy1R=SDL_LoadBMP("image/enemy1R.bmp");
     res.enemy1U=SDL_LoadBMP("image/enemy1U.bmp");
@@ -44,7 +46,9 @@ bool loadResources(resource &res){
     res.p1tankL=SDL_LoadBMP("image/enemy3D.bmp");
     SDL_Surface **checker=(SDL_Surface**)&res;
     for(int i=0;i<(sizeof(res)/sizeof(SDL_Surface*));i++){
-        if(*checker==NULL){
+        if(*checker){
+        	SDL_SetColorKey(*checker,1,SDL_MapRGB((*checker)->format,255,255,255));
+		}else{
             printf("%d\n",i);
             return false;
         }
