@@ -10,12 +10,11 @@ void outError(const char*);
 void gaming();
 void init(bool, bool);
 
-char stat;
-
 SDL_Window* window;
 SDL_Surface* screen;
 SDL_Renderer* renderer;
 struct resource image;
+struct gamestat stat;
 
 int main(int argc, char** argv) {
     init(true, true);
@@ -29,21 +28,11 @@ void gaming() {
     SDL_Rect pos;
     int height=0;
     while(true){
-        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,0,128,255));
-        pos.x=0;pos.y=0;
-        SDL_Surface **iter=(SDL_Surface**)&image;
-        for(int i=0;i<(sizeof(image)/sizeof(SDL_Surface*));i++){
-            SDL_BlitSurface(*iter,NULL,screen,&pos);
-            pos.x+=(*iter)->w;
-            if((pos.x+pos.y)>599){
-                pos.x=0;
-                pos.y+=height;
-                height=0;
-            }else{
-                height=(*iter)->w>height?(*iter)->w:height;
-            }
-            iter++;
-        }
+        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,0,0,0));
+        switch(stat.stat){
+        	case STAT_MAINMENU:
+        		break;
+		}
         SDL_UpdateWindowSurface(window);
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -78,7 +67,8 @@ void init(bool initSDL, bool resetGame) {
         }
     }
     if (resetGame) {
-        stat = STAT_MAINMENU;
+        stat.stat = STAT_MAINMENU;
+        star.substat = STAT_MAINMENU_CREATE;
     }
 }
 
