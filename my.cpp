@@ -28,7 +28,23 @@ void gaming() {
     SDL_Rect pos;
     int height=0;
     while(true){
-        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,0,0,0));
+        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format,0,163,255));
+        
+        pos.x=300;pos.y=300;
+        renderText(image,screen,"hello world",pos,1,true);
+        pos.y+=FONT_HEIGHT+1;
+        renderText(image,screen,"I think",pos,1,true);
+        pos.y+=FONT_HEIGHT+1;
+        renderText(image,screen,"Sheng Xiangyu is",pos,1,true);
+        pos.y+=FONT_HEIGHT+1;
+        renderText(image,screen,"the most beautiful",pos,1,true);
+        pos.y+=FONT_HEIGHT+1;
+        renderText(image,screen,"human in the world",pos,1,true);
+        pos.y+=FONT_HEIGHT+1;
+        renderText(image,screen,"AbCdEfGhIjKlMnOpQrStUvWxYz1234567890",pos,1,true);
+        pos.x=0;pos.y=0;
+        renderText(image,screen,"A game, TankIOv0.1",pos,1,false);
+        
         switch(stat.stat){
         	case STAT_MAINMENU:
         		break;
@@ -68,7 +84,7 @@ void init(bool initSDL, bool resetGame) {
     }
     if (resetGame) {
         stat.stat = STAT_MAINMENU;
-        star.substat = STAT_MAINMENU_CREATE;
+        stat.substat = STAT_MAINMENU_CREATE;
     }
 }
 

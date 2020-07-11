@@ -1,13 +1,20 @@
 #include<SDL2/SDL.h>
 #include<cstdio> 
+#include<cstring>
 
 struct gamestat{
 	int stat,substat;
 };
 
 struct resource{
-    SDL_Surface *blast1,*blast2,*blast3,*blast4,*blast5,*enemy1L,*enemy1R,*enemy1U,*enemy1D,*enemy2L,*enemy2R,*enemy2U,*enemy2D,*enemy3L,*enemy3R,*enemy3U,*enemy3D,*p1tankL,*p1tankR,*p1tankU,*p1tankD,*p2tankL,*p2tankR,*p2tankU,*p2tankD,*enemymissile,*grass,*mintank,*over,*star,*steel,*steels,*tankmissile,*timer,*wall,*walls,*water;
+    SDL_Surface *blast1,*blast2,*blast3,*blast4,*blast5,*enemy1L,*enemy1R,
+	*enemy1U,*enemy1D,*enemy2L,*enemy2R,*enemy2U,*enemy2D,*enemy3L,*enemy3R,
+	*enemy3U,*enemy3D,*p1tankL,*p1tankR,*p1tankU,*p1tankD,*p2tankL,*p2tankR,
+	*p2tankU,*p2tankD,*enemymissile,*grass,*mintank,*over,*star,*steel,*steels,
+	*tankmissile,*timer,*wall,*walls,*water,*font_resource;
 };
+
+int check_size;
 
 bool loadResources(resource &res){
     res.blast1=SDL_LoadBMP("image/blast1.bmp");
@@ -48,25 +55,62 @@ bool loadResources(resource &res){
     res.mintank=SDL_LoadBMP("image/mintank.bmp");
     res.over=SDL_LoadBMP("image/over.bmp");
     res.p1tankL=SDL_LoadBMP("image/enemy3D.bmp");
+    res.font_resource=SDL_LoadBMP("image/font.bmp");
+    
     SDL_Surface **checker=(SDL_Surface**)&res;
-    for(int i=0;i<(sizeof(res)/sizeof(SDL_Surface*));i++){
+    
+    check_size=sizeof(res)/sizeof(SDL_Surface*);
+    for(int i=0;i<check_size;i++){
         if(*checker){
-        	SDL_SetColorKey(*checker,1,SDL_MapRGB((*checker)->format,255,255,255));
+        	SDL_SetColorKey(*checker,
+				1,
+				SDL_MapRGB((*checker)->format,255,255,255));
 		}else{
             printf("%d\n",i);
             return false;
         }
         checker++;
     }
+    SDL_SetColorKey(res.font_resource,1,SDL_MapRGB(res.font_resource->format,0,0,0));
+    
     return true;
 }
 
 void freeResources(resource &res){
     SDL_Surface **iter=(SDL_Surface**)&res;
-    for(int i=0;i<(sizeof(res)/sizeof(SDL_Surface*));i++){
+    for(int i=0;i<check_size;i++){
         if(iter){
             SDL_FreeSurface(*iter);
         }
         iter++;
     }
+}
+
+void renderText(resource &res,SDL_Surface* at,const char* text,SDL_Rect pos,int op,bool center){
+	int len=strlen(text);
+	SDL_Rect iter;
+	iter.w=FONT_WIDTH;
+	iter.h=FONT_HEIGHT;
+	iter.y=0;
+	if(center){
+		pos.x-=len*FONT_WIDTH/2+(len-1)*op/2;
+		pos.y-=FONT_HEIGHT/2;
+	}
+	for(int i=0;i<len;i++){
+		if(text[i]==' ') {
+			pos.x+=FONT_WIDTH+op;
+			continue;
+		}
+		if(text[i]<='9'&&text[i]>='0'){
+			iter.x=(text[i]-'0')*FONT_WIDTH;
+			SDL_BlitSurface(res.font_resource,&iter,at,&pos);
+		}else if(text[i]>='A'&&text[i]<='Z'){
+			iter.x=(text[i]-'A')*FONT_WIDTH+10*FONT_WIDTH;
+			SDL_BlitSurface(res.font_resource,&iter,at,&pos);
+		}else if(text[i]>='a'&&text[i]<='z'){
+			iter.x=(text[i]-'a')*FONT_WIDTH+10*FONT_WIDTH;
+			SDL_BlitSurface(res.font_resource,&iter,at,&pos);
+		}
+		pos.x+=FONT_WIDTH+op;
+	}
 }
