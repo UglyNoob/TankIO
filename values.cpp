@@ -1,18 +1,7 @@
 #include<SDL2/SDL.h>
+#include "values.h"
 #include<cstdio> 
 #include<cstring>
-
-struct gamestat{
-	int stat,substat;
-};
-
-struct resource{
-    SDL_Surface *blast1,*blast2,*blast3,*blast4,*blast5,*enemy1L,*enemy1R,
-	*enemy1U,*enemy1D,*enemy2L,*enemy2R,*enemy2U,*enemy2D,*enemy3L,*enemy3R,
-	*enemy3U,*enemy3D,*p1tankL,*p1tankR,*p1tankU,*p1tankD,*p2tankL,*p2tankR,
-	*p2tankU,*p2tankD,*enemymissile,*grass,*mintank,*over,*star,*steel,*steels,
-	*tankmissile,*timer,*wall,*walls,*water,*font_resource;
-};
 
 int check_size;
 
